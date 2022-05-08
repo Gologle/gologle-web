@@ -24,7 +24,7 @@ const SearchInput: React.FC<SearchInputProps> = props => {
         id={id}
         className={classes(
           'py-2 pl-6 pr-12 bg-white block border rounded-3xl font-base text-gray-600 text-sm transition-shadow duration-200',
-          'focus:outline-none hover:shadow-md md:text-lg focus:shadow-md',
+          'focus:outline-none hover:shadow-md md:text-lg focus:shadow-md dark:bg-slate-300 dark:text-slate-800',
           className
         )}
         autoCorrect='off'

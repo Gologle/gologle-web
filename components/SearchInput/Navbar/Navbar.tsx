@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ includeSearchInput = false }) => {
   return (
     <div
       className={clsx(
-        'sticky top-0 backdrop-filter backdrop-blur-sm bg-white bg-opacity-90 transition-shadow duration-200 border-b border-gray-200',
+        'sticky top-0 backdrop-filter backdrop-blur-sm bg-white bg-opacity-70 transition-shadow duration-200 border-b border-gray-200',
         'firefox:bg-white firefox:bg-opacity-90', // firefox does not support backdrop
         'dark:bg-slate-900 dark:border-gray-700',
         shadowed && 'shadow-lg dark:bg-opacity-90'
@@ -58,9 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ includeSearchInput = false }) => {
                 </div>
               )}
             </div>
-            <div>
-              <DarkModeToggler darkMode={darkMode} onToggle={handleOnToggle} />
-            </div>
+            <DarkModeToggler darkMode={darkMode} onToggle={handleOnToggle} />
           </div>
         </div>
       </div>

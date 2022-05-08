@@ -4,7 +4,7 @@ import { MoonIcon } from '@heroicons/react/solid'
 import clsx from 'classnames/bind'
 
 const classes = clsx.bind({
-  root: 'w-7 h-7 cursor-pointer',
+  root: 'w-7 h-7 cursor-pointer text-slate-900 dark:text-slate-200 rounded-full',
 })
 
 export type DarkModeTogglerProps = JSX.IntrinsicElements['svg'] & {
