@@ -15,10 +15,10 @@ const HomeLink = () => (
   <span className='text-2xl font-semibold'>
     <Link href='/'>
       <a className='focus:outline-none'>
-        <span className='py-2 font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600'>
-          <span className='hidden sm:inline-flex'>Gologle</span>
-          <span className='inline-flex sm:hidden'>G</span>
-        </span>
+        <div className='font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600'>
+          <span className='hidden sm:block'>Gologle</span>
+          <span className='block sm:hidden'>G</span>
+        </div>
       </a>
     </Link>
   </span>
