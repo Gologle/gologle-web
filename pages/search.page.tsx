@@ -57,7 +57,7 @@ const SearchPage: NextPage<{ q: string; documents: DocumentApi[] }> = ({ q }) =>
 
   React.useEffect(() => {
     refetch()
-  }, [q])
+  }, [q, refetch])
 
   return (
     <SearchLayout>
