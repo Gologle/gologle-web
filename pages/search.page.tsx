@@ -5,6 +5,9 @@ import Link from 'next/link'
 import Document from '~components/Document'
 import SearchLayout from '~layouts/SearchLayout'
 import { fromMilisecondsToSeconds } from '~utils'
+import { Document as DocumentApi } from '~api/query.types'
+import useSearch from '~hooks/api/useSearch'
+import LoadingState from '~components/LoadingState'
 
 type ResultsHeaderProps = {
   q: string
@@ -17,7 +20,7 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({ q, suggestion, documentsA
   return (
     <>
       <div className='mt-1 text-sm text-slate-600 dark:text-slate-300'>
-        Found {documentsAmount} documents in {fromMilisecondsToSeconds(responseTime)} seconds
+        Found {documentsAmount} documents in {fromMilisecondsToSeconds(responseTime).toFixed(4)} seconds
       </div>
       <div className='mt-10 text-lg text-slate-900 dark:text-slate-200'>
         <span className='pr-2'>Results for:</span>{' '}
@@ -37,63 +40,54 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({ q, suggestion, documentsA
   )
 }
 
-const Results = () => {
+type ResultsProps = { documents: DocumentApi[] }
+
+const Results: React.FC<ResultsProps> = ({ documents }) => {
   return (
     <div className='w-full sm:w-4/5 md:w-1/2 divide-y pt-10'>
-      <Document title='Hola mundo' body='Documento de ejemplo' />
-      <Document
-        title='Esto es un lorem ipsum'
-        body='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui repellat necessitatibus cupiditate quas
-      facere labore modi? Est vero delectus sed fuga obcaecati iusto, eveniet et quisquam maxime nihil,
-      possimus unde. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id eaque eum corporis
-      officia ex quaerat labore deleniti nesciunt nobis? Ad a delectus sint iusto et rerum neque expedita'
-      />
-      <Document
-        title='Esto es un lorem ipsum'
-        body='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui repellat necessitatibus cupiditate quas
-      facere labore modi? Est vero delectus sed fuga obcaecati iusto, eveniet et quisquam maxime nihil,
-      possimus unde. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id eaque eum corporis
-      officia ex quaerat labore deleniti nesciunt nobis? Ad a delectus sint iusto et rerum neque expedita'
-      />
-      <Document
-        title='Esto es un lorem ipsum'
-        body='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui repellat necessitatibus cupiditate quas
-      facere labore modi? Est vero delectus sed fuga obcaecati iusto, eveniet et quisquam maxime nihil,
-      possimus unde. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id eaque eum corporis
-      officia ex quaerat labore deleniti nesciunt nobis? Ad a delectus sint iusto et rerum neque expedita'
-      />
-      <Document
-        title='Esto es un lorem ipsum'
-        body='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui repellat necessitatibus cupiditate quas
-      facere labore modi? Est vero delectus sed fuga obcaecati iusto, eveniet et quisquam maxime nihil,
-      possimus unde. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id eaque eum corporis
-      officia ex quaerat labore deleniti nesciunt nobis? Ad a delectus sint iusto et rerum neque expedita'
-      />
-      <Document
-        title='Esto es un lorem ipsum'
-        body='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui repellat necessitatibus cupiditate quas
-      facere labore modi? Est vero delectus sed fuga obcaecati iusto, eveniet et quisquam maxime nihil,
-      possimus unde. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id eaque eum corporis
-      officia ex quaerat labore deleniti nesciunt nobis? Ad a delectus sint iusto et rerum neque expedita'
-      />
+      {documents.map(document => (
+        <Document title='' body={document.text} />
+      ))}
     </div>
   )
 }
 
-const SearchPage: NextPage<{ q: string }> = ({ q }) => {
+const SearchPage: NextPage<{ q: string; documents: DocumentApi[] }> = ({ q }) => {
+  const { data, isFetching, refetch } = useSearch({ q })
+
+  React.useEffect(() => {
+    refetch()
+  }, [q])
+
   return (
     <SearchLayout>
-      <div>
-        <ResultsHeader q={q} suggestion='Hello World' documentsAmount={15000} responseTime={67} />
-        <Results />
+      <div className='flex flex-col'>
+        {isFetching ? (
+          <div className='mt-20 w-full flex flex-col items-center justify-center'>
+            <LoadingState />
+          </div>
+        ) : (
+          data && (
+            <>
+              <ResultsHeader
+                q={q}
+                suggestion='rocket'
+                documentsAmount={data.total}
+                responseTime={data.time}
+              />
+              <Results documents={data.results} />
+            </>
+          )
+        )}
       </div>
     </SearchLayout>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  let search = typeof query.q === 'string' ? query.q : query.q[0]
-  return { props: { q: decodeURIComponent(search) } }
+  let q = typeof query.q === 'string' ? query.q : query.q[0]
+
+  return { props: { q: decodeURIComponent(q) } }
 }
 
 export default SearchPage
