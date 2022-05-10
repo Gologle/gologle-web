@@ -1,5 +1,5 @@
 import { useTheme } from 'next-themes'
-import React from 'react'
+import * as React from 'react'
 
 const useDarkMode = () => {
   const { theme, setTheme } = useTheme()
