@@ -46,7 +46,7 @@ const Results: React.FC<ResultsProps> = ({ documents }) => {
   return (
     <div className='w-full sm:w-4/5 md:w-1/2 divide-y pt-10'>
       {documents.map(document => (
-        <Document title='' body={document.text} />
+        <Document key={document.id} title='' body={document.text} />
       ))}
     </div>
   )
