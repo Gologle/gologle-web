@@ -6,7 +6,7 @@ import Document from '~components/Document'
 import SearchLayout from '~layouts/SearchLayout'
 import { fromMilisecondsToSeconds } from '~utils'
 import { Document as DocumentApi } from '~api/query.types'
-import useSearch from '~hooks/api/useSearch'
+import useFetchSearch from '~hooks/api/useFetchSearch'
 import LoadingState from '~components/LoadingState'
 
 type ResultsHeaderProps = {
@@ -46,18 +46,20 @@ const Results: React.FC<ResultsProps> = ({ documents }) => {
   return (
     <div className='w-full sm:w-4/5 md:w-1/2 divide-y pt-10'>
       {documents.map(document => (
-        <Document key={document.id} title='' body={document.text} />
+        <Link key={document.id} href={`/details/${document.id}`} passHref>
+          <Document title='' body={document.text} />
+        </Link>
       ))}
     </div>
   )
 }
 
 const SearchPage: NextPage<{ q: string; documents: DocumentApi[] }> = ({ q }) => {
-  const { data, isFetching, refetch } = useSearch({ q })
+  const { data, isFetching, refetch } = useFetchSearch({ q })
 
   React.useEffect(() => {
     refetch()
-  }, [q])
+  }, [q, refetch])
 
   return (
     <SearchLayout>

@@ -1,4 +1,4 @@
-import { DatasetType } from '~hooks/api/useSearch'
+import { DatasetType } from '~hooks/api/useFetchSearch'
 import { AsyncFunction } from '~utils/types'
 
 export type Document = {

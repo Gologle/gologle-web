@@ -13,7 +13,11 @@ module.exports = {
     fontFamily: {
       sans: ['Inter'],
     },
-    extend: {},
+    extend: {
+      minHeight: {
+        '2/3vh': '66.67vh',
+      },
+    },
   },
   plugins: [
     plugin(function ({ addVariant, e, postcss }) {

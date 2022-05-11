@@ -4,14 +4,14 @@ import queryApi from '~api/query'
 
 export type DatasetType = 'cranfield' | 'newgroups' | 'reuters'
 
-type useSearchProps = {
+type useFetchSearchProps = {
   q: string
   limit?: number
   offset?: number
   dataset?: DatasetType
 }
 
-const useSearch = ({ q }: useSearchProps) => {
+const useFetchSearch = ({ q }: useFetchSearchProps) => {
   return useQuery<SearchOutput>('search-api', () => queryApi.search({ data: { q } }), {
     retry: false,
     refetchOnReconnect: false,
@@ -19,4 +19,4 @@ const useSearch = ({ q }: useSearchProps) => {
   })
 }
 
-export default useSearch
+export default useFetchSearch
