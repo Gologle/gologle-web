@@ -46,7 +46,7 @@ const Results: React.FC<ResultsProps> = ({ documents }) => {
   return (
     <div className='w-full sm:w-4/5 md:w-1/2 divide-y pt-10'>
       {documents.map(document => (
-        <Link href={`/details/${document.id}`} passHref>
+        <Link key={document.id} href={`/details/${document.id}`} passHref>
           <Document title='' body={document.text} />
         </Link>
       ))}
