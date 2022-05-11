@@ -14,7 +14,3 @@ input[type='search']::-webkit-search-cancel-button {
 a {
   @apply my-6 text-blue-600 dark:text-blue-300;
 }
-
-p {
-  @apply my-6;
-}
