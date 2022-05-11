@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ includeSearchInput = false }) => {
         <div className='flex flex-col gap-0'>
           {includeSearchInput && (
             <div className='inline-flex sm:hidden'>
-              <SearchInputForm className='py-4 rounded-sm w-full' placeholder='' />
+              <SearchInputForm className='py-4 rounded-sm w-full' />
             </div>
           )}
           <div className='px-6 sm:12 py-4 flex justify-between items-center'>
@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ includeSearchInput = false }) => {
               <HomeLink />
               {includeSearchInput && (
                 <div className='hidden sm:inline-flex'>
-                  <SearchInputForm className='py-1' placeholder='' />
+                  <SearchInputForm className='py-1' />
                 </div>
               )}
             </div>
