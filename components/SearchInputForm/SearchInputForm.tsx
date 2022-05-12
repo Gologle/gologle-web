@@ -17,7 +17,7 @@ const SearchInputForm: React.FC<SearchInputFormProps> = props => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (value) {
-      router.push(`/search?q=${encodeURIComponent(value)}`)
+      router.push(`/search?q=${encodeURIComponent(value)}&dataset=cranfield`)
     }
   }
 
