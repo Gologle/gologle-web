@@ -2,5 +2,6 @@ import axios from './utils/axios'
 import { DocumentApi } from './document.types'
 
 export default <DocumentApi>{
-  findOne: ({ params }) => axios.get('/details', { params }).then(r => r.data),
+  findOne: ({ params: { dataset, id, ...params } }) =>
+    axios.get(`/document/${dataset}/${id}`, { ...params }).then(r => r.data),
 }

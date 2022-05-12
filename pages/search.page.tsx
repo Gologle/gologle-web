@@ -6,8 +6,9 @@ import Document from '~components/Document'
 import SearchLayout from '~layouts/SearchLayout'
 import { fromMilisecondsToSeconds } from '~utils'
 import { Document as DocumentApi } from '~api/query.types'
-import useFetchSearch from '~hooks/api/useFetchSearch'
+import useFetchSearch, { DatasetType } from '~hooks/api/useFetchSearch'
 import LoadingState from '~components/LoadingState'
+import { useRouter } from 'next/router'
 
 type ResultsHeaderProps = {
   q: string
@@ -43,10 +44,13 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({ q, suggestion, documentsA
 type ResultsProps = { documents: DocumentApi[] }
 
 const Results: React.FC<ResultsProps> = ({ documents }) => {
+  const router = useRouter()
+  const { dataset } = router.query
+
   return (
     <div className='w-full sm:w-4/5 md:w-1/2 divide-y pt-10'>
       {documents.map(document => (
-        <Link key={document.id} href={`/details/${document.id}`} passHref>
+        <Link key={document.id} href={`/document/${dataset}/${document.id}`} passHref>
           <Document title='' body={document.text} />
         </Link>
       ))}
@@ -54,7 +58,7 @@ const Results: React.FC<ResultsProps> = ({ documents }) => {
   )
 }
 
-const SearchPage: NextPage<{ q: string; documents: DocumentApi[] }> = ({ q }) => {
+const SearchPage: NextPage<{ q: string; dataset: DatasetType }> = ({ q }) => {
   const { data, isFetching, refetch } = useFetchSearch({ q })
 
   React.useEffect(() => {
@@ -87,9 +91,14 @@ const SearchPage: NextPage<{ q: string; documents: DocumentApi[] }> = ({ q }) =>
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  let q = typeof query.q === 'string' ? query.q : query.q[0]
+  const q = !query.q ? '' : typeof query.q === 'string' ? query.q : query.q[0]
+  const dataset = !query.dataset
+    ? 'cranfield'
+    : typeof query.dataset === 'string'
+    ? query.dataset
+    : query.dataset[0]
 
-  return { props: { q: decodeURIComponent(q) } }
+  return { props: { q: decodeURIComponent(q), dataset } }
 }
 
 export default SearchPage
