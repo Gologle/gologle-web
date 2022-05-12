@@ -12,12 +12,21 @@ import { useRouter } from 'next/router'
 
 type ResultsHeaderProps = {
   q: string
+  dataset: DatasetType
+  model: ModelType
   suggestion?: string
   documentsAmount?: number
   responseTime?: number
 }
 
-const ResultsHeader: React.FC<ResultsHeaderProps> = ({ q, suggestion, documentsAmount, responseTime }) => {
+const ResultsHeader: React.FC<ResultsHeaderProps> = ({
+  q,
+  dataset,
+  model,
+  suggestion,
+  documentsAmount,
+  responseTime,
+}) => {
   return (
     <>
       <div className='mt-1 text-sm text-slate-600 dark:text-slate-300'>
@@ -25,7 +34,7 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({ q, suggestion, documentsA
       </div>
       <div className='mt-10 text-lg text-slate-900 dark:text-slate-200'>
         <span className='pr-2'>Results for:</span>{' '}
-        <Link href={`/search?q=${encodeURIComponent(q)}`}>
+        <Link href={`/search?q=${encodeURIComponent(q)}&dataset=${dataset}&model=${model}`}>
           <a className='font-bold'>{q}</a>
         </Link>
       </div>
@@ -33,7 +42,9 @@ const ResultsHeader: React.FC<ResultsHeaderProps> = ({ q, suggestion, documentsA
         {suggestion && (
           <div>
             <span className='pr-2'>Search instead:</span>{' '}
-            <Link href={`/search?q=${encodeURIComponent(suggestion)}`}>{suggestion}</Link>
+            <Link href={`/search?q=${encodeURIComponent(suggestion)}&dataset=${dataset}&model=${model}`}>
+              {suggestion}
+            </Link>
           </div>
         )}
       </div>
@@ -81,6 +92,8 @@ const SearchPage: NextPage<{ q: string; dataset: DatasetType; model: ModelType }
             <>
               <ResultsHeader
                 q={q}
+                dataset={dataset}
+                model={model}
                 suggestion='rocket'
                 documentsAmount={data.total}
                 responseTime={data.time}
