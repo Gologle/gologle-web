@@ -6,7 +6,7 @@ import Document from '~components/Document'
 import SearchLayout from '~layouts/SearchLayout'
 import { fromMilisecondsToSeconds } from '~utils'
 import { Document as DocumentApi } from '~api/query.types'
-import useFetchSearch, { DatasetType } from '~hooks/api/useFetchSearch'
+import useFetchSearch, { DatasetType, ModelType } from '~hooks/api/useFetchSearch'
 import LoadingState from '~components/LoadingState'
 import { useRouter } from 'next/router'
 
@@ -58,12 +58,16 @@ const Results: React.FC<ResultsProps> = ({ documents }) => {
   )
 }
 
-const SearchPage: NextPage<{ q: string; dataset: DatasetType }> = ({ q }) => {
-  const { data, isFetching, refetch } = useFetchSearch({ q })
+const SearchPage: NextPage<{ q: string; dataset: DatasetType; model: ModelType }> = ({
+  q,
+  dataset,
+  model,
+}) => {
+  const { data, isFetching, refetch } = useFetchSearch({ q, dataset, model })
 
   React.useEffect(() => {
     refetch()
-  }, [q, refetch])
+  }, [q, dataset, model, refetch])
 
   return (
     <SearchLayout>
@@ -97,8 +101,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     : typeof query.dataset === 'string'
     ? query.dataset
     : query.dataset[0]
+  const model = !query.model ? 'vectorial' : typeof query.model === 'string' ? query.model : query.model[0]
 
-  return { props: { q: decodeURIComponent(q), dataset } }
+  return { props: { q: decodeURIComponent(q), dataset, model } }
 }
 
 export default SearchPage

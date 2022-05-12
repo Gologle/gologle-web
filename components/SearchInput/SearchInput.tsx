@@ -12,10 +12,11 @@ export type SearchInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   showClear?: boolean
   onClear?: Function<void, void>
   onSearch?: Function<void, void>
+  end?: JSX.Element
 }
 
 const SearchInput: React.FC<SearchInputProps> = props => {
-  const { className, type = 'text', id, onClear, showClear = false, ...rest } = props
+  const { className, type = 'text', id, onClear, showClear = false, end, ...rest } = props
 
   return (
     <div className='relative'>
@@ -33,11 +34,14 @@ const SearchInput: React.FC<SearchInputProps> = props => {
         spellCheck={false}
         {...rest}
       />
-      {showClear && (
-        <button type='button' className='absolute inset-y-0 right-0 pr-5 text-gray-600' onClick={onClear}>
-          <XIcon className='w-5 h-5' />
-        </button>
-      )}
+      <div className='flex items-center gap-1 absolute inset-y-0 right-0 pr-5'>
+        {end && <>{end}</>}
+        {showClear && (
+          <button type='button' className='text-gray-600' onClick={onClear}>
+            <XIcon className='w-5 h-5' />
+          </button>
+        )}
+      </div>
     </div>
   )
 }

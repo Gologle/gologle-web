@@ -1,4 +1,4 @@
-import { DatasetType } from '~hooks/api/useFetchSearch'
+import { DatasetType, ModelType } from '~hooks/api/useFetchSearch'
 import { AsyncFunction } from '~utils/types'
 
 export type Document = {
@@ -12,6 +12,7 @@ export type SearchInput = {
     limit?: number
     offset?: number
     dataset?: DatasetType
+    model?: ModelType
   }
 }
 
