@@ -19,6 +19,7 @@ const useFetchSearch = ({ q, dataset, model }: useFetchSearchProps) => {
     retry: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   })
 }
 
