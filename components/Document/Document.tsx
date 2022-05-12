@@ -1,17 +1,17 @@
 import * as React from 'react'
-import Link from 'next/link'
 import clsx from 'classnames/bind'
 
 export type DocumentProps = JSX.IntrinsicElements['div'] & {
   title?: string
   body?: string
   href?: string
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>
 }
 
 const MAX_LENGTH = 300
 
 const DocumentRef: React.ForwardRefRenderFunction<HTMLAnchorElement, DocumentProps> = (
-  { title, body, href, className, ...props },
+  { title, body, className, href, onClick, ...props },
   ref
 ) => {
   const isLong = body?.length > MAX_LENGTH
@@ -25,11 +25,9 @@ const DocumentRef: React.ForwardRefRenderFunction<HTMLAnchorElement, DocumentPro
           {resume} {isLong && '...'}
         </p>
         <div className='text-right'>
-          <Link href={href || '#'}>
-            <a ref={ref} className='text-right w-full text-sm text-gray-400'>
-              See more...
-            </a>
-          </Link>
+          <a href={href} ref={ref} onClick={onClick} className='text-right w-full text-sm text-gray-400'>
+            See more...
+          </a>
         </div>
       </div>
     </div>
