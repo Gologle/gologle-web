@@ -6,6 +6,7 @@ import Modal from '~components/Modal'
 import ModalContent from '~components/ModalContent'
 import ModalFooter from '~components/ModalFooter'
 import Select from '~components/Select'
+import Option from '~components/Option'
 import { DatasetType, ModelType } from '~hooks/api/useFetchSearch'
 import { Function } from '~utils/types'
 
@@ -27,8 +28,24 @@ const SearchInputFilters: React.FC<SearchInputFiltersProps> = ({
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const models = ['vectorial']
-  const datasets = ['cranfield', 'reuters', 'newsgroups']
+  const models = [
+    {
+      value: 'vectorial',
+    },
+  ] as { value: string; disabled?: boolean }[]
+  const datasets = [
+    {
+      value: 'cranfield',
+    },
+    {
+      value: 'reuters',
+      disabled: true,
+    },
+    {
+      value: 'newsgroups',
+      disabled: true,
+    },
+  ]
 
   return (
     <>
@@ -46,18 +63,33 @@ const SearchInputFilters: React.FC<SearchInputFiltersProps> = ({
           <div className='mt-3 grid grid-cols-2 gap-x-3'>
             <Select
               label='Dataset'
-              items={datasets}
               variant='disabled'
               value={dataset}
-              onChange={v => onChangeDataset?.(v)}
-            />
+              onChange={v => onChangeDataset?.(v as string)}
+            >
+              {datasets.map(dataset => (
+                <Option
+                  key={dataset.value}
+                  variant='disabled'
+                  value={dataset.value}
+                  disabled={dataset.disabled}
+                >
+                  {dataset.value}
+                </Option>
+              ))}
+            </Select>
             <Select
               label='Model'
-              items={models}
               variant='disabled'
               value={model}
-              onChange={v => onChangeModel?.(v)}
-            />
+              onChange={v => onChangeModel?.(v as string)}
+            >
+              {models.map(model => (
+                <Option key={model.value} variant='disabled' value={model.value} disabled={model?.disabled}>
+                  {model.value}
+                </Option>
+              ))}
+            </Select>
           </div>
         </ModalContent>
         <ModalFooter>
