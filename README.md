@@ -1,1 +1,1 @@
-# Nextjs web client for Gologle Project
+# Nextjs + Tailwindcss web client for Gologle Project
