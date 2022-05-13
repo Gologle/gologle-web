@@ -5,7 +5,7 @@ import clsx from 'classnames/bind'
 
 export type SelectVariants = 'success' | 'info' | 'warning' | 'error' | 'disabled'
 
-const classes = clsx.bind({
+export const classes = clsx.bind({
   root: 'rounded-2xl relative mt-1 bg-white',
   button: 'border-0 relative w-full py-1.5 pl-2 pr-10 text-left rounded-2xl border cursor-pointer sm:text-sm',
   select: 'focus:outline-none text-sm font-semibold',
@@ -16,20 +16,17 @@ const classes = clsx.bind({
   disabled: 'bg-gray-300 text-gray-700',
 })
 
-export type SelectProps = {
+export type SelectProps = JSX.IntrinsicElements['select'] & {
   variant: SelectVariants
-  items: string[]
-  value?: string
   label?: string
   className?: string
-  onChange?: (value: string) => void
+  onChange: (value: string) => void
 }
 
-const Select = ({ label, variant, items, value, className, onChange }: SelectProps) => (
+const Select = ({ label, variant, value, className, onChange, children }: SelectProps) => (
   <div className={className}>
     <Listbox value={value} onChange={onChange}>
       {label && <div className='text-slate-800 dark:text-slate-600 font-medium text-sm'>{label}</div>}
-
       <div className={classes('root')}>
         <Listbox.Button className={classes('button', 'select', variant)}>
           <span className='block truncate'>{value}</span>
@@ -44,28 +41,7 @@ const Select = ({ label, variant, items, value, className, onChange }: SelectPro
           leaveTo='opacity-0'
         >
           <Listbox.Options className='z-20 absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-            {items.map(i => (
-              <Listbox.Option
-                key={i.toString()}
-                className={({ active }) =>
-                  classes('relative py-1 pl-4 text-left text-sm md:text-md cursor-pointer', active && variant)
-                }
-                value={i}
-              >
-                {({ selected }) => (
-                  <>
-                    <span
-                      className={classes(
-                        'block truncate text-slate-600',
-                        selected ? 'font-bold' : 'font-normal '
-                      )}
-                    >
-                      {i}
-                    </span>
-                  </>
-                )}
-              </Listbox.Option>
-            ))}
+            {children}
           </Listbox.Options>
         </Transition>
       </div>
