@@ -4,7 +4,7 @@ import documentApi from '~api/document'
 import { DatasetType } from './useFetchSearch'
 
 type useFetchDocumentProps = {
-  id: number
+  id: string
   dataset: DatasetType
 }
 

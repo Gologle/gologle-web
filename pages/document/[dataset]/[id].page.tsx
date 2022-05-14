@@ -6,7 +6,7 @@ import DetailsLayout from '~layouts/DetailsLayout'
 import LoadingState from '~components/LoadingState'
 import { DatasetType } from '~hooks/api/useFetchSearch'
 
-const DetailsPage: NextPage<{ id: number; dataset: DatasetType }> = ({ id, dataset }) => {
+const DetailsPage: NextPage<{ id: string; dataset: DatasetType }> = ({ id, dataset }) => {
   const { data, error, isLoading } = useFetchDocument({ id, dataset })
 
   return (
@@ -30,8 +30,10 @@ const DetailsPage: NextPage<{ id: number; dataset: DatasetType }> = ({ id, datas
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const id = typeof params.id === 'string' ? +params.id : +params.id[0]
+  const id = typeof params.id === 'string' ? params.id : params.id[0]
   const dataset = typeof params.dataset === 'string' ? params.dataset : (params.dataset[0] as DatasetType)
+
+  console.log({ id, dataset })
 
   return { props: { id, dataset } }
 }

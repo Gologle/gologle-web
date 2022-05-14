@@ -4,7 +4,7 @@ import { Document } from './query.types'
 
 export type DocumentDetailsInput = {
   params: {
-    id: number
+    id: string
     dataset: DatasetType
   }
 }
