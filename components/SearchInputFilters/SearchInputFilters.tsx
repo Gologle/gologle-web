@@ -43,7 +43,6 @@ const SearchInputFilters: React.FC<SearchInputFiltersProps> = ({
     },
     {
       value: 'newsgroups',
-      disabled: true,
     },
   ]
 
