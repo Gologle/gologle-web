@@ -15,9 +15,13 @@ const LoadingState: React.FC<LoadingStateProps> = ({}) => {
   const { theme } = useTheme()
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2 items-center'>
       <ThemeLoader theme={theme} />
-      <span className='text-xs text-slate-700 dark:text-slate-400 animate-pulse'>Loading</span>
+      <div className='max-w-sm text-center text-xs text-slate-700 dark:text-slate-400 animate-pulse'>
+        <span>Loading</span>
+        <p>First loads may take a while due to free hosting plan limitations</p>
+        <code>(asleep servers).</code>
+      </div>
     </div>
   )
 }
